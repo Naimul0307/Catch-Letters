@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Language</title>
+</head>
+<body>
+    <h1>Select Your Language</h1>
+    <button id="english-button">English</button>
+    <button id="arabic-button">Arabic</button>
+
+    <script>
+        document.getElementById('english-button').addEventListener('click', () => {
+            window.location.href = 'index.html?lang=en';
+        });
+
+        document.getElementById('arabic-button').addEventListener('click', () => {
+            window.location.href = 'index.html?lang=ar';
+        });
+    </script>
+</body>
+</html>
