@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startChangingLetters() {
         if (intervalId === null) {
-            intervalId = setInterval(changeLetters, 300); // Change letters every 300ms
+            intervalId = setInterval(changeLetters, 500); // Change letters every 500ms
         }
     }
 
