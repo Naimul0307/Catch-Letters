@@ -2,10 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let originalText = '';
     let currentText = '';
     let intervalId = null;
-    let indicesToChange = [];
     let changeCount = 0;
     let startLetters = [];
+    let indicesToChange = [];
     let lang = new URLSearchParams(window.location.search).get('lang') || 'en';
+    let timerId = null;
+    let timeLeft = 60; // Timer set to 10 seconds
 
     async function loadText() {
         try {
@@ -33,40 +35,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Start changing letters automatically
             startChangingLetters();
+
+            // Start the timer
+            startTimer();
         } catch (error) {
             console.error('Error loading text:', error);
         }
     }
 
     function translateToArabic(text) {
-        // Example translation function, you should replace with actual logic
         const translations = {
-            'A': 'أ',  // Alif with Hamza
-            'B': 'ب',  // Ba
-            'C': 'ت',  // Ta
-            'D': 'د',  // Dal
-            'E': 'ي',  // Ya
-            'F': 'ف',  // Fa
-            'G': 'ج',  // Jeem
-            'H': 'ه',  // Ha
-            'I': 'ي',  // Ya (often used for vowels)
-            'J': 'ج',  // Jeem
-            'K': 'ك',  // Kaf
-            'L': 'ل',  // Lam
-            'M': 'م',  // Meem
-            'N': 'ن',  // Noon
-            'O': 'و',  // Waw
-            'P': 'ب',  // Ba (Arabic doesn't have a direct equivalent for "P", Ba is often used)
-            'Q': 'ق',  // Qaf
-            'R': 'ر',  // Ra
-            'S': 'س',  // Seen
-            'T': 'ت',  // Ta
-            'U': 'و',  // Waw (often used for vowels)
-            'V': 'ف',  // Fa (Arabic doesn't have a direct equivalent for "V", Fa is often used)
-            'W': 'و',  // Waw
-            'X': 'كس', // Kaf + Seen (There isn't a direct equivalent for "X", but it's often written as "Kaf + Seen")
-            'Y': 'ي',  // Ya
-            'Z': 'ز'   // Zay
+            // Your translation logic here
         };
         return text.split('').map(letter => translations[letter] || letter).join('');
     }
@@ -92,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startChangingLetters() {
         if (intervalId === null) {
-            intervalId = setInterval(changeLetters, 500); // Change letters every 500ms
+            intervalId = setInterval(changeLetters, 900); // Change letters every 500ms
         }
     }
 
@@ -101,8 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(intervalId);
             intervalId = null;
 
-            // After stopping, check the text
-            checkText();
+            // Check if the timer has run out
+            if (timeLeft > 0) {
+                // Only check text if the time hasn't run out
+                checkText();
+            }
+
+            // Stop the timer
+            clearInterval(timerId);
+            timerId = null; // Ensure the timer doesn't restart
         }
     }
 
@@ -117,6 +103,19 @@ document.addEventListener('DOMContentLoaded', () => {
             message.innerText = 'Error! Text is incorrect.';
             message.style.color = 'red';
         }
+    }
+
+    function startTimer() {
+        timerId = setInterval(() => {
+            timeLeft--;
+            document.getElementById('time').innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                document.getElementById('time-up-message').innerText = "Time's up!";
+                document.getElementById('time-up-message').style.color = 'red';
+                stopChangingLetters(); // Automatically stop the letter change
+            }
+        }, 1000); // Update every second
     }
 
     document.getElementById('stop-change').addEventListener('click', stopChangingLetters);
