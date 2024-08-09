@@ -17,23 +17,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const randomIndex = Math.floor(Math.random() * texts.length);
             originalText = texts[randomIndex].textContent.trim();
             currentText = originalText;
-            indicesToChange = getRandomIndices(3, originalText.length);
+
+            const middleIndex = Math.floor(originalText.length / 2);
+            indicesToChange = [middleIndex - 2, middleIndex]; // Middle two letters
+
             startLetters = indicesToChange.map(i => originalText[i]); // Starting letters from the text
             document.getElementById('text-display').innerText = currentText;
+
+            // Start changing letters automatically
+            startChangingLetters();
         } catch (error) {
             console.error('Error loading text:', error);
         }
-    }
-
-    function getRandomIndices(count, max) {
-        const indices = new Set();
-        while (indices.size < count) {
-            const randomIndex = Math.floor(Math.random() * max);
-            if (/[A-Z]/.test(originalText[randomIndex])) { // Ensure only letters are targeted
-                indices.add(randomIndex);
-            }
-        }
-        return Array.from(indices);
     }
 
     function changeLetters() {
@@ -53,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startChangingLetters() {
         if (intervalId === null) {
-            intervalId = setInterval(changeLetters, 900); // Change letters every 900ms
+            intervalId = setInterval(changeLetters, 300); // Change letters every 500ms
         }
     }
 
@@ -80,7 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    document.getElementById('start-change').addEventListener('click', startChangingLetters);
     document.getElementById('stop-change').addEventListener('click', stopChangingLetters);
     document.getElementById('check-text').addEventListener('click', () => {
         if (intervalId === null) { // Ensure checking only when animation is stopped
