@@ -7,11 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let startLetters = [];
     let lang = new URLSearchParams(window.location.search).get('lang') || 'en';
     let timerId = null;
-    let timeLeft = 80; // Timer set to 80 seconds
+    let timeLeft = 30; // Timer set to 30 seconds
 
     async function loadText() {
         try {
-            const response = await fetch('texts.xml');
+            const xmlFile = lang === 'ar' ? 'texts-ar.xml' : 'texts.xml'; // Use different XML file based on language
+            const response = await fetch(xmlFile);
             const text = await response.text();
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(text, 'text/xml');
@@ -19,13 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (texts.length === 0) throw new Error('No texts found in XML.');
             const randomIndex = Math.floor(Math.random() * texts.length);
             originalText = texts[randomIndex].textContent.trim();
+            currentText = originalText;
 
             if (lang === 'ar') {
-                originalText = translateToArabic(originalText);
                 document.body.style.direction = "rtl"; // Right to left for Arabic
             }
-
-            currentText = originalText;
 
             const middleIndex = Math.floor(originalText.length / 2);
             indicesToChange = [middleIndex - 2, middleIndex]; // Middle two letters
@@ -48,16 +47,29 @@ document.addEventListener('DOMContentLoaded', () => {
         indicesToChange.forEach((i, index) => {
             const startChar = startLetters[index];
             const startCode = startChar.charCodeAt(0);
-            textArray[i] = String.fromCharCode(((startCode - 65 + changeCount) % 26) + 65); // A-Z cycling
-
+            
+            // Handle letter change for Arabic characters
             if (lang === 'ar') {
-                textArray[i] = translateToArabic(textArray[i]); // Convert to Arabic if needed
+                // Arabic letters cycling logic
+                textArray[i] = getNextArabicChar(startChar, changeCount);
+            } else {
+                // Latin letters cycling logic
+                textArray[i] = String.fromCharCode(((startCode - 65 + changeCount) % 26) + 65); // A-Z cycling
             }
         });
 
         currentText = textArray.join('');
         displayTextWithSpans(currentText); // Update displayed text with spans
         changeCount++;
+    }
+
+    function getNextArabicChar(currentChar, step) {
+        const arabicAlphabet = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'; // Simplified Arabic alphabet
+        const currentIndex = arabicAlphabet.indexOf(currentChar);
+        if (currentIndex === -1) return currentChar; // Return the current character if not in the alphabet
+
+        const nextIndex = (currentIndex + step) % arabicAlphabet.length;
+        return arabicAlphabet[nextIndex];
     }
 
     function startChangingLetters() {
@@ -134,39 +146,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function displayTextWithSpans(text) {
         const textDisplay = document.getElementById('text-display');
         textDisplay.innerHTML = text.split('').map(letter => `<span>${letter}</span>`).join('');
-    }
-
-    function translateToArabic(text) {
-        // Example translation function, replace with actual logic
-        const translations = {
-            'A': 'أ',  // Alif with Hamza
-            'B': 'ب',  // Ba
-            'C': 'ت',  // Ta
-            'D': 'د',  // Dal
-            'E': 'ي',  // Ya
-            'F': 'ف',  // Fa
-            'G': 'ج',  // Jeem
-            'H': 'ه',  // Ha
-            'I': 'ي',  // Ya (often used for vowels)
-            'J': 'ج',  // Jeem
-            'K': 'ك',  // Kaf
-            'L': 'ل',  // Lam
-            'M': 'م',  // Meem
-            'N': 'ن',  // Noon
-            'O': 'و',  // Waw
-            'P': 'ب',  // Ba (Arabic doesn't have a direct equivalent for "P", Ba is often used)
-            'Q': 'ق',  // Qaf
-            'R': 'ر',  // Ra
-            'S': 'س',  // Seen
-            'T': 'ت',  // Ta
-            'U': 'و',  // Waw (often used for vowels)
-            'V': 'ف',  // Fa (Arabic doesn't have a direct equivalent for "V", Fa is often used)
-            'W': 'و',  // Waw
-            'X': 'كس', // Kaf + Seen (There isn't a direct equivalent for "X", but it's often written as "Kaf + Seen")
-            'Y': 'ي',  // Ya
-            'Z': 'ز'   // Zay
-        };
-        return text.split('').map(letter => translations[letter] || letter).join('');
     }
 
     // Add touch event listener for stopping the animation

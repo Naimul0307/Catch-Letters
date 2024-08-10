@@ -29,10 +29,6 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px; /* Add padding to increase the container size */
-    background-color: #fff; /* Optional background color for contrast */
-    border: 2px solid #ccc; /* Optional border for styling */
-    border-radius: 10px; /* Optional rounded corners */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
 }
 
 #text-display span {
