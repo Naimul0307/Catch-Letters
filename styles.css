@@ -5,16 +5,51 @@ body {
     background-color: #f0f0f0;
 }
 
-#text-display {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
+/* Timer styles */
 #time-display {
     font-size: 20px;
-    margin-bottom: 20px;
+    margin: 20px; /* Optional margin */
+    position: absolute; /* Position relative to the body */
+    top: 20px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for visibility */
+    color: #fff; /* White text color for contrast */
+    padding: 10px; /* Padding around the text */
+    border-radius: 5px; /* Rounded corners */
 }
 
+/* Text display container */
+#text-display {
+    margin-top: 300px;
+    margin-bottom: 10px;
+    font-size: 100px;
+    font-weight: bolder;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* Add padding to increase the container size */
+    background-color: #fff; /* Optional background color for contrast */
+    border: 2px solid #ccc; /* Optional border for styling */
+    border-radius: 10px; /* Optional rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional shadow for depth */
+}
+
+#text-display span {
+    display: inline-block;
+    text-align: center;
+    font-size: 100px; /* Adjust font size as needed */
+    width: 1em; /* Adjust width to fit the font size */
+    height: 1em; /* Adjust height to fit the font size */
+    line-height: 1; /* Align text vertically */
+    background-color: #e0e0e0; /* Light gray background for each letter box */
+    border: 1px solid #ccc; /* Light gray border for each letter box */
+    border-radius: 5px; /* Rounded corners for letter boxes */
+    padding: 0.1em; /* Adjust padding as needed */
+    margin: 0 0.1em; /* Space between letter boxes */
+}
+
+/* Button styles */
 button {
     padding: 10px 20px;
     margin: 10px;
@@ -22,6 +57,7 @@ button {
     cursor: pointer;
 }
 
+/* Overlay styles */
 .overlay {
     position: fixed;
     top: 0;
@@ -45,19 +81,3 @@ button {
 #time-up-overlay {
     background-image: url('/image/time-up.jpg'); /* Replace with your time-up image path */
 }
-
-@keyframes letterChange {
-    0% { transform: rotateX(0deg); opacity: 1; }
-    50% { transform: rotateX(90deg); opacity: 0; }
-    100% { transform: rotateX(180deg); opacity: 1; }
-}
-
-#text-display span {
-    display: inline-block;
-    animation: letterChange 0.5s infinite;
-    transform-origin: center;
-}
-
-#text-display span.letter-0 { animation-delay: 0s; }
-#text-display span.letter-1 { animation-delay: 0.1s; }
-#text-display span.letter-2 { animation-delay: 0.2s; }
