@@ -8,14 +8,14 @@ body {
 /* Timer styles */
 #time-display {
     font-size: 20px;
-    margin: 20px; /* Optional margin */
-    position: absolute; /* Position relative to the body */
-    top: 20px; /* Distance from the top */
-    right: 20px; /* Distance from the right */
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for visibility */
-    color: #fff; /* White text color for contrast */
-    padding: 10px; /* Padding around the text */
-    border-radius: 5px; /* Rounded corners */
+    margin: 20px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
 }
 
 /* Text display container */
@@ -28,21 +28,22 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    padding: 20px; /* Add padding to increase the container size */
+    padding: 20px;
 }
 
 #text-display span {
     display: inline-block;
     text-align: center;
-    font-size: 100px; /* Adjust font size as needed */
-    width: 1em; /* Adjust width to fit the font size */
-    height: 1em; /* Adjust height to fit the font size */
-    line-height: 1; /* Align text vertically */
-    background-color: #e0e0e0; /* Light gray background for each letter box */
-    border: 1px solid #ccc; /* Light gray border for each letter box */
-    border-radius: 5px; /* Rounded corners for letter boxes */
-    padding: 0.1em; /* Adjust padding as needed */
-    margin: 0 0.1em; /* Space between letter boxes */
+    font-size: 100px;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.1em;
+    margin: 0 0.1em;
+    position: relative;
 }
 
 /* Button styles */
@@ -63,17 +64,30 @@ button {
     background-size: cover;
     background-position: center;
     z-index: 1000;
-    display: none; /* Hidden by default */
+    display: none;
 }
 
 #message-overlay.success {
-    background-image: url('/image/success.jpg'); /* Replace with your success image path */
+    background-image: url('/image/success.jpg');
 }
 
 #message-overlay.error {
-    background-image: url('/image/error.jpg'); /* Replace with your error image path */
+    background-image: url('/image/error.jpg');
 }
 
 #time-up-overlay {
-    background-image: url('/image/time-up.jpg'); /* Replace with your time-up image path */
+    background-image: url('/image/time-up.jpg');
+}
+
+/* Animation for jackpot effect */
+@keyframes jackpotAnimation {
+    0% { transform: rotateX(0deg); }
+    30% { transform: rotateX(360deg); }
+    60% { transform: rotateX(720deg); }
+    100% { transform: rotateX(0deg); }
+}
+
+.jackpot-letter {
+    display: inline-block; /* Ensure the letter can be animated */
+    animation: jackpotAnimation 1s ease-in-out; /* Adjust duration as needed */
 }

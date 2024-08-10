@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let startLetters = [];
     let lang = new URLSearchParams(window.location.search).get('lang') || 'en';
     let timerId = null;
-    let timeLeft = 30; // Timer set to 30 seconds
+    let timeLeft = 60; // Timer set to 30 seconds
 
     async function loadText() {
         try {
@@ -42,26 +42,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function changeLetters() {
         if (indicesToChange.length === 0) return;
-
+    
         let textArray = currentText.split('');
         indicesToChange.forEach((i, index) => {
             const startChar = startLetters[index];
-            const startCode = startChar.charCodeAt(0);
-            
-            // Handle letter change for Arabic characters
+    
             if (lang === 'ar') {
-                // Arabic letters cycling logic
                 textArray[i] = getNextArabicChar(startChar, changeCount);
             } else {
-                // Latin letters cycling logic
+                const startCode = startChar.charCodeAt(0);
                 textArray[i] = String.fromCharCode(((startCode - 65 + changeCount) % 26) + 65); // A-Z cycling
             }
+    
+            // Apply the jackpot-letter class to the changing letter span
+            const span = document.querySelector(`#text-display span:nth-child(${i + 1})`);
+            if (span) {
+                span.classList.add('jackpot-letter');
+                // Remove the class after the animation ends
+                setTimeout(() => {
+                    span.classList.remove('jackpot-letter');
+                }, 1000); // Match this duration to the animation duration
+            }
         });
-
+    
         currentText = textArray.join('');
         displayTextWithSpans(currentText); // Update displayed text with spans
         changeCount++;
     }
+    
 
     function getNextArabicChar(currentChar, step) {
         const arabicAlphabet = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'; // Simplified Arabic alphabet
@@ -74,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startChangingLetters() {
         if (intervalId === null) {
-            intervalId = setInterval(changeLetters, 900); // Change letters every 900ms
+            intervalId = setInterval(changeLetters, 200); // Change letters every 900ms
         }
     }
 
@@ -100,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Redirect to home page after showing the message
         setTimeout(() => {
             window.location.href = 'home.html'; // Adjust the URL if necessary
-        }, 2000); // Redirect after 2 seconds
+        }, 5000); // Redirect after 2 seconds
     }
 
     function checkText() {
@@ -128,7 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Redirect to home page after showing the time-up message
         setTimeout(() => {
             window.location.href = 'home.html'; // Adjust the URL if necessary
-        }, 2000); // Redirect after 2 seconds
+        }, 5000); // Redirect after 2 seconds
     }
 
     function startTimer() {
