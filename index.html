@@ -3,14 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Text Animation Game</title>
+    <title>Text Game</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="text-display"></div>
-    <button id="stop-change">Stop Changing Letters</button>
-    <div id="timer">Time left: <span id="time"></span> seconds</div>
-    <div id="time-up-message"></div>
-    <div id="message"></div>
+    <div id="time-display">
+        Time Left: <span id="time">00</span> seconds
+    </div>
+    <button id="stop-change" hidden>Stop Animation</button>
+    <!-- Full-screen overlays for messages -->
+    <div id="message-overlay" class="overlay"></div>
+    <div id="time-up-overlay" class="overlay"></div>
 
     <script src="script.js"></script>
 </body>

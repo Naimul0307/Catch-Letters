@@ -1,31 +1,63 @@
 body {
     font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f0f0f0;
-}
-
-.container {
     text-align: center;
+    padding: 20px;
+    background-color: #f0f0f0;
 }
 
 #text-display {
     font-size: 24px;
-    margin: 20px 0;
-    white-space: pre-wrap; /* Ensure spaces and line breaks are preserved */
+    margin-bottom: 20px;
 }
 
-#text-input {
-    padding: 10px;
-    font-size: 18px;
-    margin-bottom: 10px;
+#time-display {
+    font-size: 20px;
+    margin-bottom: 20px;
 }
 
 button {
     padding: 10px 20px;
+    margin: 10px;
     font-size: 18px;
-    margin: 5px;
+    cursor: pointer;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1000;
+    display: none; /* Hidden by default */
+}
+
+#message-overlay.success {
+    background-image: url('/image/success.jpg'); /* Replace with your success image path */
+}
+
+#message-overlay.error {
+    background-image: url('/image/error.jpg'); /* Replace with your error image path */
+}
+
+#time-up-overlay {
+    background-image: url('/image/time-up.jpg'); /* Replace with your time-up image path */
+}
+
+@keyframes letterChange {
+    0% { transform: rotateX(0deg); opacity: 1; }
+    50% { transform: rotateX(90deg); opacity: 0; }
+    100% { transform: rotateX(180deg); opacity: 1; }
+}
+
+#text-display span {
+    display: inline-block;
+    animation: letterChange 0.5s infinite;
+    transform-origin: center;
+}
+
+#text-display span.letter-0 { animation-delay: 0s; }
+#text-display span.letter-1 { animation-delay: 0.1s; }
+#text-display span.letter-2 { animation-delay: 0.2s; }

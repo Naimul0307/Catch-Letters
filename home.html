@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Choose Language</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Select Your Language</h1>
@@ -11,13 +12,42 @@
     <button id="arabic-button">Arabic</button>
 
     <script>
+        // Function to navigate based on selected language
+        function navigateToLanguage(lang) {
+            window.location.href = `index.html?lang=${lang}`;
+        }
+
+        // Event listeners for buttons
         document.getElementById('english-button').addEventListener('click', () => {
-            window.location.href = 'index.html?lang=en';
+            navigateToLanguage('en');
         });
 
         document.getElementById('arabic-button').addEventListener('click', () => {
-            window.location.href = 'index.html?lang=ar';
+            navigateToLanguage('ar');
         });
+
+        // Add event listeners for mouse click, touch, and keyboard press
+        function addGlobalEventListeners() {
+            // Listen for click event
+            document.body.addEventListener('click', (event) => {
+                if (event.target.tagName !== 'BUTTON') {
+                    // Do something or call stop function
+                    console.log("Background clicked! No action taken.");
+                }
+            });
+
+            // Listen for touch event
+            document.body.addEventListener('touchstart', (event) => {
+                if (event.target.tagName !== 'BUTTON') {
+                    // Do something or call stop function
+                    console.log("Screen touched! No action taken.");
+                }
+            });
+
+        }
+
+        // Initialize global event listeners
+        addGlobalEventListeners();
     </script>
 </body>
 </html>
