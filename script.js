@@ -2,12 +2,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let originalText = '';
     let currentText = '';
     let intervalId = null;
+    let indicesToChange = [];
     let changeCount = 0;
     let startLetters = [];
-    let indicesToChange = [];
     let lang = new URLSearchParams(window.location.search).get('lang') || 'en';
     let timerId = null;
-    let timeLeft = 60; // Timer set to 10 seconds
+    let timeLeft = 60; // Timer set to 60 seconds
 
     async function loadText() {
         try {
@@ -35,17 +35,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Start changing letters automatically
             startChangingLetters();
-
-            // Start the timer
-            startTimer();
+            startTimer(); // Start the timer
         } catch (error) {
             console.error('Error loading text:', error);
         }
     }
 
     function translateToArabic(text) {
+        // Example translation function, you should replace with actual logic
         const translations = {
-            // Your translation logic here
+            'A': 'أ',  // Alif with Hamza
+            'B': 'ب',  // Ba
+            'C': 'ت',  // Ta
+            'D': 'د',  // Dal
+            'E': 'ي',  // Ya
+            'F': 'ف',  // Fa
+            'G': 'ج',  // Jeem
+            'H': 'ه',  // Ha
+            'I': 'ي',  // Ya (often used for vowels)
+            'J': 'ج',  // Jeem
+            'K': 'ك',  // Kaf
+            'L': 'ل',  // Lam
+            'M': 'م',  // Meem
+            'N': 'ن',  // Noon
+            'O': 'و',  // Waw
+            'P': 'ب',  // Ba (Arabic doesn't have a direct equivalent for "P", Ba is often used)
+            'Q': 'ق',  // Qaf
+            'R': 'ر',  // Ra
+            'S': 'س',  // Seen
+            'T': 'ت',  // Ta
+            'U': 'و',  // Waw (often used for vowels)
+            'V': 'ف',  // Fa (Arabic doesn't have a direct equivalent for "V", Fa is often used)
+            'W': 'و',  // Waw
+            'X': 'كس', // Kaf + Seen (There isn't a direct equivalent for "X", but it's often written as "Kaf + Seen")
+            'Y': 'ي',  // Ya
+            'Z': 'ز'   // Zay
         };
         return text.split('').map(letter => translations[letter] || letter).join('');
     }
@@ -71,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startChangingLetters() {
         if (intervalId === null) {
-            intervalId = setInterval(changeLetters, 900); // Change letters every 500ms
+            intervalId = setInterval(changeLetters, 500); // Change letters every 500ms
         }
     }
 
@@ -80,15 +104,8 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(intervalId);
             intervalId = null;
 
-            // Check if the timer has run out
-            if (timeLeft > 0) {
-                // Only check text if the time hasn't run out
-                checkText();
-            }
-
-            // Stop the timer
-            clearInterval(timerId);
-            timerId = null; // Ensure the timer doesn't restart
+            // After stopping, check the text
+            checkText();
         }
     }
 
@@ -103,6 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
             message.innerText = 'Error! Text is incorrect.';
             message.style.color = 'red';
         }
+
+        // Redirect to home page after showing the message
+        setTimeout(() => {
+            window.location.href = 'home.html'; // Adjust the URL if necessary
+        }, 2000); // Redirect after 2 seconds
     }
 
     function startTimer() {
@@ -114,16 +136,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('time-up-message').innerText = "Time's up!";
                 document.getElementById('time-up-message').style.color = 'red';
                 stopChangingLetters(); // Automatically stop the letter change
+
+                // Redirect to home page after showing the time-up message
+                setTimeout(() => {
+                    window.location.href = 'home.html'; // Adjust the URL if necessary
+                }, 2000); // Redirect after 2 seconds
             }
         }, 1000); // Update every second
     }
 
-    document.getElementById('stop-change').addEventListener('click', stopChangingLetters);
-    document.getElementById('check-text').addEventListener('click', () => {
-        if (intervalId === null) { // Ensure checking only when animation is stopped
-            checkText();
-        } else {
-            alert('Please stop the letter change animation first.');
+    // Add touch event listener for stopping the animation
+    document.body.addEventListener('touchstart', stopChangingLetters);
+
+    // Add keyboard event listener for stopping the animation
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') { // Trigger stop on Enter key press
+            stopChangingLetters();
         }
     });
 
