@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let startLetters = [];
     let lang = new URLSearchParams(window.location.search).get('lang') || 'en';
     let timerId = null;
-    let timeLeft = 60; // Timer set to 30 seconds
+    let timeLeft = 60; // Timer set to 60 seconds
 
     async function loadText() {
         try {
-            const xmlFile = lang === 'ar' ? 'texts-ar.xml' : 'texts.xml'; // Use different XML file based on language
+            const xmlFile = lang === 'ar' ? 'texts-ar.xml' : 'texts.xml';
             const response = await fetch(xmlFile);
             const text = await response.text();
             const parser = new DOMParser();
@@ -30,11 +30,10 @@ document.addEventListener('DOMContentLoaded', () => {
             indicesToChange = [middleIndex - 2, middleIndex]; // Middle two letters
 
             startLetters = indicesToChange.map(i => originalText[i]);
-            displayTextWithSpans(currentText); // Display the text with spans
+            displayTextWithSpans(currentText);
 
-            // Start changing letters automatically
             startChangingLetters();
-            startTimer(); // Start the timer
+            startTimer();
         } catch (error) {
             console.error('Error loading text:', error);
         }
@@ -42,39 +41,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function changeLetters() {
         if (indicesToChange.length === 0) return;
-    
+
         let textArray = currentText.split('');
         indicesToChange.forEach((i, index) => {
             const startChar = startLetters[index];
-    
+
             if (lang === 'ar') {
                 textArray[i] = getNextArabicChar(startChar, changeCount);
             } else {
                 const startCode = startChar.charCodeAt(0);
-                textArray[i] = String.fromCharCode(((startCode - 65 + changeCount) % 26) + 65); // A-Z cycling
+                textArray[i] = String.fromCharCode(((startCode - 65 + changeCount) % 26) + 65);
             }
-    
-            // Apply the jackpot-letter class to the changing letter span
+
             const span = document.querySelector(`#text-display span:nth-child(${i + 1})`);
             if (span) {
                 span.classList.add('jackpot-letter');
-                // Remove the class after the animation ends
                 setTimeout(() => {
                     span.classList.remove('jackpot-letter');
-                }, 1000); // Match this duration to the animation duration
+                }, 1000);
             }
         });
-    
+
         currentText = textArray.join('');
-        displayTextWithSpans(currentText); // Update displayed text with spans
+        displayTextWithSpans(currentText);
         changeCount++;
     }
-    
 
     function getNextArabicChar(currentChar, step) {
-        const arabicAlphabet = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي'; // Simplified Arabic alphabet
+        const arabicAlphabet = 'ابتثجحخدذرزسشصضطظعغفقكلمنهوي';
         const currentIndex = arabicAlphabet.indexOf(currentChar);
-        if (currentIndex === -1) return currentChar; // Return the current character if not in the alphabet
+        if (currentIndex === -1) return currentChar;
 
         const nextIndex = (currentIndex + step) % arabicAlphabet.length;
         return arabicAlphabet[nextIndex];
@@ -82,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startChangingLetters() {
         if (intervalId === null) {
-            intervalId = setInterval(changeLetters, 200); // Change letters every 900ms
+            intervalId = setInterval(changeLetters, 200);
         }
     }
 
@@ -91,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
             clearInterval(intervalId);
             intervalId = null;
 
-            // After stopping, check the text
             checkText();
         }
     }
@@ -105,26 +100,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         messageOverlay.style.display = 'block';
 
-        // Redirect to home page after showing the message
         setTimeout(() => {
-            window.location.href = 'home.html'; // Adjust the URL if necessary
-        }, 5000); // Redirect after 2 seconds
+            window.location.href = 'home.html';
+        }, 5000);
     }
 
     function checkText() {
         const textDisplay = document.getElementById('text-display');
         const spans = textDisplay.querySelectorAll('span');
-        const displayText = Array.from(spans).map(span => span.textContent).join(''); // Concatenate span text content
+        const displayText = Array.from(spans).map(span => span.textContent).join('');
 
-        console.log(`Display Text: ${displayText}`);
-        console.log(`Original Text: ${originalText}`);
-
-        // Show success if the display text matches the original text
         if (displayText === originalText) {
-            console.log("Texts match, showing success.");
             showOverlay('success');
         } else {
-            console.log("Texts do not match, showing error.");
             showOverlay('error');
         }
     }
@@ -133,22 +121,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeUpOverlay = document.getElementById('time-up-overlay');
         timeUpOverlay.style.display = 'block';
 
-        // Redirect to home page after showing the time-up message
         setTimeout(() => {
-            window.location.href = 'home.html'; // Adjust the URL if necessary
-        }, 5000); // Redirect after 2 seconds
+            window.location.href = 'home.html';
+        }, 5000);
     }
 
     function startTimer() {
         timerId = setInterval(() => {
             timeLeft--;
-            document.getElementById('time-display').innerText = timeLeft;
+            updateClockDisplay(timeLeft);
             if (timeLeft <= 0) {
                 clearInterval(timerId);
                 showTimeUpOverlay();
-                stopChangingLetters(); // Automatically stop the letter change
+                stopChangingLetters();
             }
-        }, 1000); // Update every second
+        }, 1000);
+    }
+
+    function updateClockDisplay(seconds) {
+        const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
+        const secs = (seconds % 60).toString().padStart(2, '0');
+        // document.getElementById('clock-time').innerText = `00:${minutes}:${secs}`;
+        document.getElementById('clock-time').innerText = `${secs}`;
     }
 
     function displayTextWithSpans(text) {
@@ -156,19 +150,13 @@ document.addEventListener('DOMContentLoaded', () => {
         textDisplay.innerHTML = text.split('').map(letter => `<span>${letter}</span>`).join('');
     }
 
-    // Add touch event listener for stopping the animation
     document.body.addEventListener('touchstart', stopChangingLetters);
-    
-    // Add mouse click event listener for stopping the animation
     document.body.addEventListener('click', stopChangingLetters);
-    
-    // Add keyboard event listener for stopping the animation
     document.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') { // Trigger stop on Enter key press
+        if (event.key === 'Enter') {
             stopChangingLetters();
         }
     });
 
-    // Load text when the page is ready
     loadText();
 });

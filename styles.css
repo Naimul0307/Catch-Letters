@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'Digital-7';
+    src: url('fonts/digital-7.ttf'); /* IE9 Compat Modes */
+    src: url('fonts/digital-7\ \(italic\).ttf') format('embedded-opentype'), /* IE6-IE8 */
+         url('fonts/digital-7\ \(mono\ italic\).ttf') format('woff'), /* Modern Browsers */
+         url('fonts/digital-7\ \(mono\).ttf') format('truetype'); /* Safari, Android, iOS */
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -7,15 +17,43 @@ body {
 
 /* Timer styles */
 #time-display {
-    font-size: 20px;
+    font-family: 'Digital-7', sans-serif;
+    font-size: 48px; /* Increased font size for a larger clock display */
+    width: 300px; /* Increased width */
+    height: 100px; /* Increased height */
+    display: flex; /* Center the text horizontally and vertically */
+    justify-content: center;
+    align-items: center;
     margin: 20px;
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+#time-display:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+}
+/* Text styling */
+.jackpot-letter {
+    animation: jackpot 1s ease-in-out;
+}
+
+@keyframes jackpot {
+    0% { color: yellow; transform: scale(1); }
+    50% { color: red; transform: scale(1.2); }
+    100% { color: yellow; transform: scale(1); }
+}
+
+
+#time-display:hover {
+    background-color: rgba(0, 0, 0, 0.9); /* Darker background on hover for interactivity */
 }
 
 /* Text display container */
@@ -28,22 +66,22 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 20px; /* Add padding to increase the container size */
 }
 
 #text-display span {
     display: inline-block;
     text-align: center;
-    font-size: 100px;
-    width: 1em;
-    height: 1em;
-    line-height: 1;
-    background-color: #e0e0e0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 0.1em;
-    margin: 0 0.1em;
-    position: relative;
+    font-size: 100px; /* Adjust font size as needed */
+    width: 1em; /* Adjust width to fit the font size */
+    height: 1em; /* Adjust height to fit the font size */
+    line-height: 1; /* Align text vertically */
+    background-color: #e0e0e0; /* Light gray background for each letter box */
+    border: 1px solid #ccc; /* Light gray border for each letter box */
+    border-radius: 5px; /* Rounded corners for letter boxes */
+    padding: 0.1em; /* Adjust padding as needed */
+    margin: 0 0.1em; /* Space between letter boxes */
+    position: relative; /* Ensure correct positioning for animation */
 }
 
 /* Button styles */
@@ -64,30 +102,17 @@ button {
     background-size: cover;
     background-position: center;
     z-index: 1000;
-    display: none;
+    display: none; /* Hidden by default */
 }
 
 #message-overlay.success {
-    background-image: url('/image/success.jpg');
+    background-image: url('/image/success.jpg'); /* Replace with your success image path */
 }
 
 #message-overlay.error {
-    background-image: url('/image/error.jpg');
+    background-image: url('/image/error.jpg'); /* Replace with your error image path */
 }
 
 #time-up-overlay {
-    background-image: url('/image/time-up.jpg');
-}
-
-/* Animation for jackpot effect */
-@keyframes jackpotAnimation {
-    0% { transform: rotateX(0deg); }
-    30% { transform: rotateX(360deg); }
-    60% { transform: rotateX(720deg); }
-    100% { transform: rotateX(0deg); }
-}
-
-.jackpot-letter {
-    display: inline-block; /* Ensure the letter can be animated */
-    animation: jackpotAnimation 1s ease-in-out; /* Adjust duration as needed */
+    background-image: url('/image/time-up.jpg'); /* Replace with your time-up image path */
 }
