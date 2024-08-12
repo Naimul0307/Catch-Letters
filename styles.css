@@ -8,12 +8,19 @@
     font-style: normal;
 }
 
-body {
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-family: Arial, sans-serif;
-    text-align: center;
-    padding: 20px;
     background-color: #f0f0f0;
+    background-image: url('/image/background.jpg');
+    background-size: cover;
+    background-position: center;
 }
+
 
 /* Timer styles */
 #time-display {
@@ -44,9 +51,9 @@ body {
 
 /* Text display container */
 #text-display {
-    margin-top: 400px;
-    margin-bottom: 10px;
-    font-size: 100px;
+    margin-top: 50px;
+    margin-bottom: 15px;
+    font-size: 80px;
     font-weight: bolder;
     display: flex;
     flex-wrap: wrap;
