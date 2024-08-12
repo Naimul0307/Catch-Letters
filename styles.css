@@ -58,7 +58,7 @@ body {
 
 /* Text display container */
 #text-display {
-    margin-top: 300px;
+    margin-top: 400px;
     margin-bottom: 10px;
     font-size: 100px;
     font-weight: bolder;
@@ -76,9 +76,9 @@ body {
     width: 1em; /* Adjust width to fit the font size */
     height: 1em; /* Adjust height to fit the font size */
     line-height: 1; /* Align text vertically */
-    background-color: #e0e0e0; /* Light gray background for each letter box */
+    background-color: #1ce4d3; /* Light gray background for each letter box */
     border: 1px solid #ccc; /* Light gray border for each letter box */
-    border-radius: 5px; /* Rounded corners for letter boxes */
+    border-radius: 20px; /* Rounded corners for letter boxes */
     padding: 0.1em; /* Adjust padding as needed */
     margin: 0 0.1em; /* Space between letter boxes */
     position: relative; /* Ensure correct positioning for animation */
