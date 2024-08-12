@@ -126,10 +126,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     }
 
+    function playBeep() {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // Beep frequency
+        gainNode.gain.setValueAtTime(1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5); // Beep duration
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+    }
+    
+
     function startTimer() {
         timerId = setInterval(() => {
             timeLeft--;
             updateClockDisplay(timeLeft);
+            
+            if (timeLeft <= 10 && timeLeft > 0) {
+                playBeep(); // Play beep sound when countdown is 10 seconds or less
+                document.getElementById('clock-time').classList.add('beep'); // Add beep animation class
+            }
+    
             if (timeLeft <= 0) {
                 clearInterval(timerId);
                 showTimeUpOverlay();
@@ -137,7 +161,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1000);
     }
-
+    
+    
     function updateClockDisplay(seconds) {
         const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
         const secs = (seconds % 60).toString().padStart(2, '0');

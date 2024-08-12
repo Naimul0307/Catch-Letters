@@ -18,16 +18,17 @@ body {
 /* Timer styles */
 #time-display {
     font-family: 'Digital-7', sans-serif;
-    font-size: 48px; /* Increased font size for a larger clock display */
-    width: 300px; /* Increased width */
-    height: 100px; /* Increased height */
-    display: flex; /* Center the text horizontally and vertically */
+    font-size: 60px;
+    width: 100px;
+    height: 50px;
+    display: flex;
     justify-content: center;
     align-items: center;
     margin: 20px;
     position: fixed;
     top: 20px;
     right: 20px;
+    margin-right: 50px;
     background-color: rgba(0, 0, 0, 0.7);
     color: #fff;
     padding: 20px;
@@ -40,21 +41,6 @@ body {
 #time-display:hover {
     background-color: rgba(0, 0, 0, 0.9);
 }
-/* Text styling */
-.jackpot-letter {
-    animation: jackpot 1s ease-in-out;
-}
-
-@keyframes jackpot {
-    0% { color: yellow; transform: scale(1); }
-    50% { color: red; transform: scale(1.2); }
-    100% { color: yellow; transform: scale(1); }
-}
-
-
-#time-display:hover {
-    background-color: rgba(0, 0, 0, 0.9); /* Darker background on hover for interactivity */
-}
 
 /* Text display container */
 #text-display {
@@ -66,22 +52,22 @@ body {
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    padding: 20px; /* Add padding to increase the container size */
+    padding: 20px;
 }
 
 #text-display span {
     display: inline-block;
     text-align: center;
-    font-size: 100px; /* Adjust font size as needed */
-    width: 1em; /* Adjust width to fit the font size */
-    height: 1em; /* Adjust height to fit the font size */
-    line-height: 1; /* Align text vertically */
-    background-color: #1ce4d3; /* Light gray background for each letter box */
-    border: 1px solid #ccc; /* Light gray border for each letter box */
-    border-radius: 20px; /* Rounded corners for letter boxes */
-    padding: 0.1em; /* Adjust padding as needed */
-    margin: 0 0.1em; /* Space between letter boxes */
-    position: relative; /* Ensure correct positioning for animation */
+    font-size: 100px;
+    width: 1.2em;
+    height: 1.2em;
+    line-height: 1;
+    background-color: #1ce4d3;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    padding: 0.1em;
+    margin: 0 0.1em;
+    position: relative;
 }
 
 /* Button styles */
@@ -102,7 +88,18 @@ button {
     background-size: cover;
     background-position: center;
     z-index: 1000;
-    display: none; /* Hidden by default */
+    display: none;
+}
+
+/* Beep Animation for Timer */
+@keyframes beep {
+    0% { transform: scale(1); color: #fff; }
+    50% { transform: scale(1.2); color: #ff0000; }
+    100% { transform: scale(1); color: #fff; }
+}
+
+.beep {
+    animation: beep 0.5s ease-in-out infinite;
 }
 
 #message-overlay.success {
@@ -115,4 +112,74 @@ button {
 
 #time-up-overlay {
     background-image: url('/image/time-up.jpg'); /* Replace with your time-up image path */
+}
+
+
+/* Responsive styles */
+@media (max-width: 1200px) {
+    #time-display {
+        font-size: 36px;
+        width: 250px;
+        padding: 15px;
+        margin-right: 30px;
+    }
+
+    #text-display {
+        font-size: 80px;
+        margin-bottom: 50px;
+    }
+
+    #text-display span {
+        font-size: 80px;
+    }
+
+    button {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    #time-display {
+        font-size: 30px;
+        width: 200px;
+        padding: 10px;
+        margin-right: 20px;
+    }
+
+    #text-display {
+        font-size: 60px;
+        padding: 10px;
+        margin-bottom: 50px;
+    }
+
+    #text-display span {
+        font-size: 60px;
+    }
+
+    button {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    #time-display {
+        font-size: 24px;
+        width: 150px;
+        padding: 5px;
+        margin-right: 10px;
+        margin-bottom: 50px;
+    }
+
+    #text-display {
+        font-size: 40px;
+        padding: 5px;
+    }
+
+    #text-display span {
+        font-size: 40px;
+    }
+
+    button {
+        font-size: 12px;
+    }
 }
