@@ -15,6 +15,7 @@ body, html {
 
 .container {
     text-align: center;
+    margin-top: 350px;
 }
 
 /* Button styles */
@@ -22,19 +23,25 @@ button {
     width: 300px; /* Default width */
     height: 100px; /* Default height */
     font-size: 48px; /* Default font size */
+    margin: 20px;
     font-weight: bold;
     border-radius: 10px;
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 20px 40px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s ease;
+    background-color: rgb(42, 121, 239);
+    color: azure;
+    box-shadow: 0 20px 12px rgba(20, 20, 20, 0.404); /* Increased bottom shadow */
+    text-transform: uppercase;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out; /* Add transition for smooth animation */
 }
 
-button:hover {
-    background-color: #ab3fc0;
+button:hover{
+    background: linear-gradient(30deg,rgb(18, 78, 145), rgba(35, 208, 231, 0.829), rgb(13, 178, 138));
+    color: azure;
+}
+
+button:active {
+    transform: translateY(8px); /* Push the button down slightly on click */
+    box-shadow: 0 6px 12px rgba(20, 20, 20, 0.6); /* Adjusted shadow for active state */
 }
 
 /* Responsive styles */
