@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startChangingLetters() {
         if (intervalId === null) {
-            intervalId = setInterval(changeLetters, 200);
+            intervalId = setInterval(changeLetters, 700);
         }
     }
 
