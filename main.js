@@ -15,7 +15,7 @@ function createWindow() {
   });
 
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname,'home.html'),
+    pathname: path.join(__dirname,'settings.html'),
     protocol: 'file:',
     slashes: true
   }));

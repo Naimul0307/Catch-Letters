@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Settings</title>
+    <link rel="stylesheet" href="settings.css">
+</head>
+<body>
+    <div class="settings-container">
+        <h2>Game Settings</h2>
+        <label for="timer">Timer (seconds):</label>
+        <input type="number" id="timer" value="60">
+        
+        <label for="speed">Letter Change Speed (ms):</label>
+        <input type="number" id="speed" value="200">
+        
+        <label for="letters">Number of Letters to Change:</label>
+        <input type="number" id="letters" value="2">
+        
+        <div class="settings-buttons">
+            <button onclick="saveSettings()">Save Settings</button>
+            <button onclick="window.location.href='home.html'">Home</button>
+        </div>
+    </div>
+    <script>
+        function saveSettings() {
+            const timer = document.getElementById('timer').value;
+            const speed = document.getElementById('speed').value;
+            const letters = document.getElementById('letters').value;
+            
+            localStorage.setItem('timerValue', timer);
+            localStorage.setItem('changeSpeed', speed);
+            localStorage.setItem('lettersToChange', letters);
+
+            alert('Settings saved!');
+            window.location.href = 'home.html'; // Redirect back to the game page
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('timerValue')) {
+                document.getElementById('timer').value = localStorage.getItem('timerValue');
+            }
+            if (localStorage.getItem('changeSpeed')) {
+                document.getElementById('speed').value = localStorage.getItem('changeSpeed');
+            }
+            if (localStorage.getItem('lettersToChange')) {
+                document.getElementById('letters').value = localStorage.getItem('lettersToChange');
+            }
+        });
+    </script>
+</body>
+</html>

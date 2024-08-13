@@ -10,17 +10,27 @@
 
 body, html {
     height: 100%;
+    width: 100%;
     margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    background-image: url('image/background.jpg');
-    background-size: cover;
-    background-position: center;
+    background-size: cover; /* Ensure the image covers the entire element */
+    background-repeat: no-repeat; /* Prevent tiling of the image */
+    background-position: center; /* Center the image */
 }
 
+/* Default background */
+body.en {
+    background-image: url('image/ingamebg.jpg');
+}
+
+/* Arabic background */
+body.ar {
+    background-image: url('image/ingamebgar.jpg');
+}
 
 /* Timer styles */
 #time-display {
@@ -51,7 +61,7 @@ body, html {
 
 /* Text display container */
 #text-display {
-    margin-top: 50px;
+    margin-top: 200px;
     margin-bottom: 15px;
     font-size: 80px;
     font-weight: bolder;
@@ -69,7 +79,7 @@ body, html {
     width: 1.2em;
     height: 1.2em;
     line-height: 1;
-    background-color: #1ce4d3;
+    background-color: #ffffff;
     border: 2px solid #202020;
     border-radius: 20px;
     padding: 0.1em;
@@ -111,15 +121,27 @@ body, html {
 }
 
 #message-overlay.success {
-    background-image: url('image/success.jpg'); /* Replace with your success image path */
+    background-image: url('image/youwin.jpg'); /* Replace with your success image path */
 }
 
 #message-overlay.error {
-    background-image: url('image/error.jpg'); /* Replace with your error image path */
+    background-image: url('image/youlose.jpg'); /* Replace with your error image path */
 }
 
-#time-up-overlay {
-    background-image: url('image/time-up.jpg'); /* Replace with your time-up image path */
+#time-up-overlay.time-up{
+    background-image: url('image/timesup.jpg'); /* Replace with your time-up image path */
+}
+
+#message-overlay.success-ar {
+    background-image: url('image/youwinar.jpg'); /* Arabic success image */
+}
+
+#message-overlay.error-ar {
+    background-image: url('image/youlosear.jpg'); /* Arabic error image */
+}
+
+#time-up-overlay.time-up-ar {
+    background-image: url('image/time-upar.jpg'); /* Arabic time-up image */
 }
 
 

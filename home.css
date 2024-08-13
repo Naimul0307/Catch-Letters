@@ -2,20 +2,21 @@
 
 body, html {
     height: 100%;
+    width: 100%;
     margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: Arial, sans-serif;
     background-color: #f0f0f0;
-    background-image: url('image/background.jpg');
+    background-image: url('image/MainBG.jpg');
     background-size: cover;
     background-position: center;
 }
 
 .container {
     text-align: center;
-    margin-top: 350px;
+    margin-top: 550px;
 }
 
 /* Button styles */
@@ -25,7 +26,7 @@ button {
     font-size: 48px; /* Default font size */
     margin: 20px;
     font-weight: bold;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
     background-color: rgb(42, 121, 239);
     color: azure;

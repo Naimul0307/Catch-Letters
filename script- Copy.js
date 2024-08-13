@@ -7,7 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let startLetters = [];
     let lang = new URLSearchParams(window.location.search).get('lang') || 'en';
     let timerId = null;
-    let timeLeft = 60; // Timer set to 60 seconds
+    let timeLeft = localStorage.getItem('timerValue') || 60; // Use stored timer value or default to 60
+    let changeSpeed = localStorage.getItem('changeSpeed') || 200; // Use stored speed value or default to 200ms
+    let lettersToChange = localStorage.getItem('lettersToChange') || 2; // Use stored letters count or default to 2
+
+    // Apply language-specific class to the body
+    document.body.classList.add(lang);
 
     async function loadText() {
         try {
@@ -27,7 +32,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const middleIndex = Math.floor(originalText.length / 2);
-            indicesToChange = [middleIndex - 2, middleIndex]; // Middle two letters
+            indicesToChange = [];
+            for (let i = 0; i < lettersToChange; i++) {
+                indicesToChange.push(middleIndex - Math.floor(lettersToChange / 2) + i);
+            }
 
             startLetters = indicesToChange.map(i => originalText[i]);
             displayTextWithSpans(currentText);
@@ -78,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startChangingLetters() {
         if (intervalId === null) {
-            intervalId = setInterval(changeLetters, 200); //speed controllr  letter change
+            intervalId = setInterval(changeLetters, changeSpeed); // Use changeSpeed from settings
         }
     }
 
@@ -121,30 +129,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const timeUpOverlay = document.getElementById('time-up-overlay');
         timeUpOverlay.className = lang === 'ar' ? 'overlay time-up-ar' : 'overlay time-up';
         timeUpOverlay.style.display = 'block';
-    
-        setTimeout(() => {
-            window.location.href = 'home.html';
-        }, 5000);
     }
-    
 
     function playBeep() {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(1000, audioContext.currentTime); // Beep frequency
-        gainNode.gain.setValueAtTime(1, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.5); // Beep duration
-
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
+        const beep = new Audio('sounds/beep.mp3');
+        beep.play();
     }
-    
 
     function startTimer() {
         timerId = setInterval(() => {
@@ -152,8 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
             updateClockDisplay(timeLeft);
             
             if (timeLeft <= 10 && timeLeft > 0) {
-                playBeep(); // Play beep sound when countdown is 10 seconds or less
-                document.getElementById('clock-time').classList.add('beep'); // Add beep animation class
+                playBeep(); 
+                document.getElementById('clock-time').classList.add('beep');
             }
     
             if (timeLeft <= 0) {
@@ -161,20 +151,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 showTimeUpOverlay();
                 stopChangingLetters();
             }
-        }, 500);
+        }, 1000);
     }
-    
-    
+
     function updateClockDisplay(seconds) {
-        const minutes = Math.floor(seconds / 60).toString().padStart(2, '0');
         const secs = (seconds % 60).toString().padStart(2, '0');
-        // document.getElementById('clock-time').innerText = `00:${minutes}:${secs}`;
         document.getElementById('clock-time').innerText = `${secs}`;
     }
 
     function displayTextWithSpans(text) {
         const textDisplay = document.getElementById('text-display');
-        textDisplay.innerHTML = text.split('').map(letter => `<span>${letter}</span>`).join('');
+        textDisplay.innerHTML = '';
+        text.split('').forEach(letter => {
+            const span = document.createElement('span');
+            span.textContent = letter;
+            textDisplay.appendChild(span);
+        });
     }
 
     document.body.addEventListener('touchstart', stopChangingLetters);
